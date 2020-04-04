@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://EliCarcar:elikene@cluster0-9qjzl.mongodb.net/test?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://EliCarcar:elikene@cluster0-9qjzl.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "myjwtsecret"
 }
