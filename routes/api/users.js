@@ -5,6 +5,7 @@ const User = require("../../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const gravatar = require("gravatar");
 
 //@route    POST api/users
 //@desc     Test route
@@ -71,7 +72,10 @@ router.post(
           res.json({ token });
         }
       );
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Server error");
+    }
   }
 );
 
