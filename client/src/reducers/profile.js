@@ -2,6 +2,7 @@ import {
   PROFILE_SUCCESS,
   PROFILE_ERROR,
   CLEAR_PROFILE,
+  UPDATE_PROFILE,
 } from "../actions/types";
 
 const initialState = {
@@ -17,10 +18,10 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case PROFILE_SUCCESS:
+    case UPDATE_PROFILE:
       return { ...state, isLoading: false, profile: payload };
     case PROFILE_ERROR:
       return { ...state, isLoading: false, error: payload };
-
     case CLEAR_PROFILE:
       return { ...state, isLoading: false };
     default:
