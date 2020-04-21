@@ -1,10 +1,12 @@
 import React, { useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getProfile } from "../../actions/profile";
+import { getProfile, addEducation } from "../../actions/profile";
 import PropTypes from "prop-types";
 import Spinner from "../layouts/Spinner";
 import DashboardActions from "./DashboardActions";
+import Experience from "./Experience";
+import Education from "./Education";
 
 const Dashboard = ({
   getProfile,
@@ -27,6 +29,8 @@ const Dashboard = ({
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
+          <Experience experience={profile.experience} />
+          <Education education={profile.education} />
         </Fragment>
       ) : (
         <Fragment>
