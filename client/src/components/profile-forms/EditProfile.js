@@ -1,10 +1,15 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { saveProfile } from "../../actions/profile";
+import { saveProfile, getProfile } from "../../actions/profile";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-const CreateProfile = ({ saveProfile, history }) => {
+const EditProfile = ({
+  saveProfile,
+  history,
+  getProfile,
+  profile: { profile, isLoading },
+}) => {
   const [formData, setFormData] = useState({
     company: "",
     website: "",
@@ -21,6 +26,25 @@ const CreateProfile = ({ saveProfile, history }) => {
   });
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
+
+  useEffect(() => {
+    getProfile();
+    setFormData({
+      company: isLoading || !profile.company ? "" : profile.company,
+      website: isLoading || !profile.website ? "" : profile.website,
+      location: isLoading || !profile.location ? "" : profile.location,
+      status: isLoading || !profile.status ? "" : profile.status,
+      skills: isLoading || !profile.skills ? "" : profile.skills.join(", "),
+      githubusername:
+        isLoading || !profile.githubusername ? "" : profile.githubusername,
+      bio: isLoading || !profile.bio ? "" : profile.bio,
+      twitter: isLoading || !profile.social ? "" : profile.social.twitter,
+      facebook: isLoading || !profile.social ? "" : profile.social.facebook,
+      linkedin: isLoading || !profile.social ? "" : profile.social.linkedin,
+      youtube: isLoading || !profile.social ? "" : profile.social.youtube,
+      instagram: isLoading || !profile.social ? "" : profile.social.instagram,
+    });
+  }, [isLoading]);
 
   const {
     company,
@@ -42,15 +66,15 @@ const CreateProfile = ({ saveProfile, history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    saveProfile(formData, history);
+    saveProfile(formData, history, true);
   };
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Create Your Profile</h1>
+      <h1 className="large text-primary">Edit Your Profile</h1>
       <p className="lead">
-        <i className="fas fa-user"></i> Let's get some information to make your
-        profile stand out
+        <i className="fas fa-user"></i> Let's modify some information to make
+        your profile stand out
       </p>
       <small>* = required field</small>
       <form className="form" onSubmit={(e) => onSubmit(e)}>
@@ -220,8 +244,14 @@ const CreateProfile = ({ saveProfile, history }) => {
   );
 };
 
-CreateProfile.propTypes = {
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+EditProfile.propTypes = {
   saveProfile: PropTypes.func.isRequired,
 };
 
-export default connect(null, { saveProfile })(withRouter(CreateProfile));
+export default connect(mapStateToProps, { saveProfile, getProfile })(
+  withRouter(EditProfile)
+);
